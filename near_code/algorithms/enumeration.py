@@ -32,7 +32,7 @@ class ENUMERATION(ProgramLearningAlgorithm):
         symbolic_programs = symbolic_programs[:total_eval]
 
         best_program = None
-        best_total_cost = float('inf')
+        best_total_cost = -float('inf')
         best_programs_list = []
         start_time = time.time()
         num_programs_trained = 1
@@ -46,12 +46,13 @@ class ENUMERATION(ProgramLearningAlgorithm):
             score = execute_and_train(candidate, validset, trainset, train_config, 
                 graph.output_type, graph.output_size, neural=False, device=device)
 
-            total_cost = score + prog_dict["struct_cost"]
+            total_cost = score# + prog_dict["struct_cost"]
             log_and_print("Structural cost is {} with structural penalty {}".format(prog_dict["struct_cost"], graph.penalty))
             log_and_print("Time to train child {:.3f}".format(time.time()-child_start_time))
             log_and_print("Total time elapsed is: {:.3f}".format(time.time()-start_time))
 
-            if total_cost < best_total_cost:
+            if total_cost > best_total_cost:
+                print(f"{total_cost=} > {best_total_cost=}")
                 best_program = copy.deepcopy(prog_dict["program"])
                 best_total_cost = total_cost
                 prog_dict["score"] = score

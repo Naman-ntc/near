@@ -27,6 +27,7 @@ def label_correctness(predictions, truths, num_labels=1):
         assert len(predictions.size()) == 2
         predictions = torch.max(predictions, dim=-1)[1]
 
+    additional_scores['accuracy'] = torch.mean((predictions == truths).float()).item()
     additional_scores['hamming_accuracy'] = 1 - hamming_loss(truths.squeeze().cpu(), predictions.squeeze().cpu())
     if num_labels > 1:
         w_avg_f1, additional_scores['unweighted_f1'], additional_scores['all_f1s'] = compute_average_f1_score(truths.squeeze().cpu(), predictions.squeeze().cpu(), num_labels)

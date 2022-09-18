@@ -1,0 +1,71 @@
+INFO:root:Starting experiment poc_enumeration_001
+
+INFO:root:Symbolic Synthesis: generated 5/10000 symbolic programs from candidate program.
+INFO:root:Training candidate program (1/5) Start(FullFeatureSelect())
+INFO:root:Validation score is: 0.2898
+INFO:root:Accuracy is: 0.7000
+INFO:root:Train accuracy is: 0.7000
+INFO:root:Average f1-score is: 0.7102
+INFO:root:Hamming accuracy is: 0.7000
+INFO:root:Structural cost is 0.0 with structural penalty 0.01
+INFO:root:Time to train child 0.205
+INFO:root:Total time elapsed is: 0.205
+INFO:root:New BEST program found:
+INFO:root:Start(FullFeatureSelect())
+INFO:root:struct_cost 0.0000 | score 0.2898 | path_cost 0.2898 | time 0.2048
+INFO:root:Training candidate program (2/5) Start(SimpleITE(FullFeatureSelect(), FullFeatureSelect(), FullFeatureSelect()))
+INFO:root:Validation score is: 0.2694
+INFO:root:Accuracy is: 0.7300
+INFO:root:Train accuracy is: 0.7300
+INFO:root:Average f1-score is: 0.7306
+INFO:root:Hamming accuracy is: 0.7300
+INFO:root:Structural cost is 0.03 with structural penalty 0.01
+INFO:root:Time to train child 0.208
+INFO:root:Total time elapsed is: 0.414
+INFO:root:Training candidate program (3/5) Start(SimpleITE(SimpleITE(FullFeatureSelect(), FullFeatureSelect(), FullFeatureSelect()), FullFeatureSelect(), FullFeatureSelect()))
+INFO:root:Validation score is: 0.3851
+INFO:root:Accuracy is: 0.6100
+INFO:root:Train accuracy is: 0.6100
+INFO:root:Average f1-score is: 0.6149
+INFO:root:Hamming accuracy is: 0.6100
+INFO:root:Structural cost is 0.06 with structural penalty 0.01
+INFO:root:Time to train child 0.229
+INFO:root:Total time elapsed is: 0.643
+INFO:root:New BEST program found:
+INFO:root:Start(SimpleITE(SimpleITE(FullFeatureSelect(), FullFeatureSelect(), FullFeatureSelect()), FullFeatureSelect(), FullFeatureSelect()))
+INFO:root:struct_cost 0.0600 | score 0.3851 | path_cost 0.3851 | time 0.6432
+INFO:root:Training candidate program (4/5) Start(SimpleITE(FullFeatureSelect(), SimpleITE(FullFeatureSelect(), FullFeatureSelect(), FullFeatureSelect()), FullFeatureSelect()))
+INFO:root:Validation score is: 0.3125
+INFO:root:Accuracy is: 0.6700
+INFO:root:Train accuracy is: 0.6700
+INFO:root:Average f1-score is: 0.6875
+INFO:root:Hamming accuracy is: 0.6700
+INFO:root:Structural cost is 0.06 with structural penalty 0.01
+INFO:root:Time to train child 0.234
+INFO:root:Total time elapsed is: 0.879
+INFO:root:Training candidate program (5/5) Start(SimpleITE(FullFeatureSelect(), FullFeatureSelect(), SimpleITE(FullFeatureSelect(), FullFeatureSelect(), FullFeatureSelect())))
+INFO:root:Validation score is: 0.3416
+INFO:root:Accuracy is: 0.6500
+INFO:root:Train accuracy is: 0.6500
+INFO:root:Average f1-score is: 0.6584
+INFO:root:Hamming accuracy is: 0.6500
+INFO:root:Structural cost is 0.06 with structural penalty 0.01
+INFO:root:Time to train child 0.229
+INFO:root:Total time elapsed is: 1.108
+INFO:root:
+
+INFO:root:BEST programs found:
+INFO:root:Start(FullFeatureSelect())
+INFO:root:struct_cost 0.0000 | score 0.2898 | path_cost 0.2898 | time 0.2048
+INFO:root:Start(SimpleITE(SimpleITE(FullFeatureSelect(), FullFeatureSelect(), FullFeatureSelect()), FullFeatureSelect(), FullFeatureSelect()))
+INFO:root:struct_cost 0.0600 | score 0.3851 | path_cost 0.3851 | time 0.6432
+INFO:root:
+
+INFO:root:Evaluating program Start(SimpleITE(SimpleITE(FullFeatureSelect(), FullFeatureSelect(), FullFeatureSelect()), FullFeatureSelect(), FullFeatureSelect())) on TEST SET
+INFO:root:F1 score achieved is 0.6234
+INFO:root:Additional performance parameters: {'accuracy': 0.6299999952316284, 'hamming_accuracy': 0.63, 'unweighted_f1': 0.531788611125733, 'all_f1s': array([0.4137931 , 0.59016393, 0.68421053, 0.4       , 0.33333333,
+       0.76923077])}
+
+INFO:root:ALGORITHM END 
+
+

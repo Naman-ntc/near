@@ -146,6 +146,8 @@ if __name__ == '__main__':
     # TODO allow user to choose device
     if torch.cuda.is_available():
         device = 'cuda:0'
+    # elif torch.backends.mps.is_available():
+    #     device = torch.device("mps")
     else:
         device = 'cpu'
 

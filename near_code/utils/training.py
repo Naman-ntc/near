@@ -27,6 +27,8 @@ def init_optimizer(program, optimizer, lr):
 
 def process_batch(program, batch, output_type, output_size, device='cpu'):
     batch_input = [torch.tensor(traj) for traj in batch]
+    return program.execute_on_batch(torch.tensor(batch).float().to(device))
+    print(batch_input[0].shape)
     batch_padded, batch_lens = pad_minibatch(batch_input, num_features=batch_input[0].size(1))
     batch_padded = batch_padded.to(device)
     out_padded = program.execute_on_batch(batch_padded, batch_lens)
@@ -58,15 +60,20 @@ def execute_and_train(program, validset, trainset, train_config, output_type, ou
     curr_optim = init_optimizer(program, optimizer, lr)
 
     # prepare validation set
+    full_train_input, full_train_output = map(list, zip(*validset))
+    full_train_true_vals = torch.tensor(flatten_batch(full_train_output)).float().to(device)
     validation_input, validation_output = map(list, zip(*validset))
     validation_true_vals = torch.tensor(flatten_batch(validation_output)).float().to(device)
     # TODO a little hacky, but easiest solution for now
     if isinstance(lossfxn, nn.CrossEntropyLoss):
         validation_true_vals = validation_true_vals.long()
+        full_train_true_vals = full_train_true_vals.long()
 
     best_program = None
     best_metric = float('inf')
     best_additional_params = {}
+    best_train_metric = float('inf')
+    best_train_additional_params = {}
 
     for epoch in range(1, num_epochs+1):
         for batchidx in range(len(trainset)):
@@ -90,19 +97,29 @@ def execute_and_train(program, validset, trainset, train_config, output_type, ou
             predicted_vals = process_batch(program, validation_input, output_type, output_size, device)
             metric, additional_params = evalfxn(predicted_vals, validation_true_vals, num_labels=num_labels)
 
+            predicted_train_vals = process_batch(program, full_train_input, output_type, output_size, device)
+            train_metric, train_additional_params = evalfxn(predicted_train_vals, full_train_true_vals, num_labels=num_labels)
+
+
         if use_valid_score:
-            if metric < best_metric:
+            if metric > best_metric:
                 best_program = copy.deepcopy(program)
                 best_metric = metric
                 best_additional_params = additional_params
+                best_train_metric = train_metric
+                best_train_additional_params = train_additional_params
         else:
             best_program = copy.deepcopy(program)
             best_metric = metric
             best_additional_params = additional_params
+            best_train_metric = train_metric
+            best_train_additional_params = train_additional_params
 
     # select model with best validation score
     program = copy.deepcopy(best_program)
     log_and_print("Validation score is: {:.4f}".format(best_metric))
+    log_and_print("Accuracy is: {:.4f}".format(best_additional_params['accuracy']))
+    log_and_print("Train accuracy is: {:.4f}".format(best_train_additional_params['accuracy']))
     log_and_print("Average f1-score is: {:.4f}".format(1 - best_metric))
     log_and_print("Hamming accuracy is: {:.4f}".format(best_additional_params['hamming_accuracy']))
     
